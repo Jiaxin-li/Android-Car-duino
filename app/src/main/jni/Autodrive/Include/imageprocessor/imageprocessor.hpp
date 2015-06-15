@@ -82,5 +82,42 @@ namespace Autodrive
             Autodrive::linef(center, center + POINT(std::cos(angle) * 200, -sin(angle) * 200)).draw(mat, CV_RGB(0, 250, 0));
             return cmnd;
         }
+
+        bool leftLineFound()
+        {
+            return roadFollower->leftLineFound();
+        }
+
+        bool rightLineFound()
+        {
+            return roadFollower->rightLineFound();
+        }
+
+        /*
+            Returns wether the car is on the left lane
+            Currently only works if both roadlines are found by comparing their gaps
+        */
+        bool isLeftLane()
+        {
+            if (! leftLineFound() || ! rightLineFound())
+                return false;
+            else
+                return roadFollower->isLeftLane();
+        }
+
+        /*
+        Returns wether the car is on the right lane
+        */
+        bool isRightLane()
+        {
+            if (! leftLineFound() || ! rightLineFound())
+                return false;
+            else
+                return roadFollower->isRightLane();
+        }
+
+        int dashedLineGaps() {
+            return roadFollower->dashedLineGaps();
+        }
     }
 }

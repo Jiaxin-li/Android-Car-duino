@@ -67,6 +67,39 @@ namespace Autodrive
         }
 
 
+		bool leftLineFound()
+		{
+			return leftLineFollower->isFound();
+		}
+
+		bool rightLineFound()
+		{
+			return rightLineFollower->isFound();
+		}
+
+		bool isLeftLane()
+		{
+			int leftGaps = leftLineFollower->totalGap();
+			int rightGaps = rightLineFollower->totalGap();
+			return leftGaps < rightGaps;
+		}
+
+        bool isRightLane() {
+            int leftGaps = leftLineFollower->totalGap();
+            int rightGaps = rightLineFollower->totalGap();
+            return rightGaps < leftGaps;
+        }
+
+        int dashedLineGaps() {
+            if (leftLineFound() && ! rightLineFound()) {
+                return leftLineFollower->totalGap();
+            } else if (rightLineFound() && ! leftLineFound()) {
+                return rightLineFollower->totalGap();
+            } else {
+                return 0;
+            }
+        }
+
         command update(cv::Mat& cannied, cv::Mat& drawMat)
         {
             command cmd;
@@ -90,7 +123,8 @@ namespace Autodrive
             } else if (rightTargetAngle)
             {
                 targetAngle = *rightTargetAngle;
-            }else if(unfoundCounter++ > 5){
+            }else if(unfoundCounter++ > 5)
+            {
                  cmd.setAngle(0);
             }
             

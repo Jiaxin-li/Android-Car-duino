@@ -41,6 +41,14 @@ namespace Autodrive {
 				return false;
 			}
 		}
+		
+		void Reset(){
+			gapLength = 0;
+			gapStart = 0;
+			gapDepthOk = false;
+			initialGap = true;
+			currentManeuver = maneuver(NO_MANEUVER);
+		}
 	
 	    // the maneuver to engage depending on the size of a gap
 		void SetParkingManeuver() {		
@@ -49,7 +57,7 @@ namespace Autodrive {
 		
 			// perpendicular standard
 			// if the gap length is between the size of the car and double the size of the car
-			if (gapLength > (0.8 * SensorData::carLength) && gapLength < (1.5 * SensorData::carLength) && SensorData::infrared.rearright > 0) {
+			if (gapLength > (0.5 * SensorData::carLength) && gapLength < (1.1 * SensorData::carLength) && SensorData::infrared.rearright > 0) {
 				if(initialGap){
 					gapLength = 0;
 					initialGap = false;
@@ -65,7 +73,7 @@ namespace Autodrive {
 
 			// parallel standard
 			// if there is not enought space for the car to park front on
-			}else if(gapLength > 1.4 * SensorData::carLength && SensorData::infrared.rearright > 0){
+			}else if(gapLength > (1 * SensorData::carLength) && SensorData::infrared.rearright > 0){
 				
 				// workarround to avoid the initial gap
 				if(initialGap){
@@ -83,7 +91,6 @@ namespace Autodrive {
 					initialGap = false;
 				}
 				currentManeuver = maneuver(NO_MANEUVER);
-
 			}
 		}
 		
