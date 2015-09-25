@@ -47,6 +47,16 @@ extern "C"
     {
         Autodrive::SensorData::carLength = _carLength;
     }
+
+    TYPE(void) NAME(lineLeftFound)()
+    {
+        Autodrive::SensorData::lineLeftFound = true;
+    }
+
+    TYPE(void) NAME(lineRightFound)()
+    {
+        Autodrive::SensorData::lineRightFound = true;
+    }
     
     TYPE(jint) NAME(getCarLength)()
     {
